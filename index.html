@@ -1,22 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-  <title>Zenith Key</title>
+<meta charset="UTF-8">
+<title>Zenith Hub</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #0f0f0f, #141414);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+    color: white;
+  }
+
+  .card {
+    background: #1c1c1c;
+    padding: 30px;
+    border-radius: 14px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(0,0,0,.6);
+  }
+
+  h1 {
+    margin-bottom: 10px;
+  }
+
+  button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    background: #facc15;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #eab308;
+  }
+
+  a {
+    color: #38bdf8;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  #link {
+    margin-top: 15px;
+  }
+</style>
 </head>
 <body>
-  <h1>Sua key do dia:</h1>
-  <p id="key">Carregando...</p>
 
-  <script>
-    fetch("/api/key")
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("key").innerText = data.key;
-      })
-      .catch(err => {
-        document.getElementById("key").innerText = "Erro ao carregar a key";
-        console.error(err);
-      });
-  </script>
+<div class="card">
+  <h1>Zenith Hub</h1>
+  <p>Gere seu acesso diário</p>
+  <button onclick="gerar()">Gerar Key</button>
+  <div id="link"></div>
+</div>
+
+<script>
+function gerar() {
+  fetch("/api/generate")
+    .then(r => r.json())
+    .then(d => {
+      document.getElementById("link").innerHTML =
+        `<a href="${d.url}" target="_blank">👉 Acessar página da key</a>`;
+    });
+}
+</script>
+
 </body>
 </html>
