@@ -1,22 +1,17 @@
 import crypto from "crypto";
 
+const SECRET = "ZenithGod"; // troca isso
+
 export default function handler(req, res) {
-  // cria storage global (se ainda não existir)
-  global.tokens ??= {};
+  const time = Date.now();
+  const payload = `${time}`;
+  const sig = crypto
+    .createHmac("sha256", SECRET)
+    .update(payload)
+    .digest("hex")
+    .slice(0, 8);
 
-  // gera token curto
-  const token = crypto.randomBytes(4).toString("hex"); // ex: a9f3c2d1
-  const now = Date.now();
+  const token = `${time}.${sig}`;
 
-  // salva infos do visitante
-  global.tokens[token] = {
-    time: now,
-    ua: req.headers["user-agent"] || "unknown"
-  };
-
-  // redireciona pra subpágina da key
-  res.writeHead(302, {
-    Location: `/k/${token}`,
-  });
-  res.end();
+  res.redirect(302, `/k/${token}`);
 }
