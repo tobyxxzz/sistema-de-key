@@ -13,5 +13,7 @@ export default function handler(req, res) {
 
   const token = `${time}.${sig}`;
 
-  res.redirect(302, `/k/${token}`);
-}
+res.json({
+  url: "/k/?token=ABC123"
+});
+
