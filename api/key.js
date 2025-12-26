@@ -1,16 +1,23 @@
 export default function handler(req, res) {
-    // Token obrigatório do Work Ink
-    const { token } = req.query;
-    const VALID_TOKEN = "MEU_TOKEN_DO_WORKINK";
+  const { token } = req.query;
 
-    if(token !== VALID_TOKEN) {
-        res.status(403).json({ error: "Access denied" });
-        return;
-    }
+  // token secreto (NUNCA divulga)
+  const VALID_TOKEN = "TOKEN_DO_WORKINK_AQUI";
 
-    // Key do dia automática (ex: YYYYMMDD random ou fixa)
-    const today = new Date();
-    const keyDoDia = "KEY-" + today.getFullYear() + (today.getMonth()+1) + today.getDate();
+  if (token !== VALID_TOKEN) {
+    res.status(403).json({ error: "Access denied" });
+    return;
+  }
 
-    res.status(200).json({ key: keyDoDia });
+  // gera key do dia automaticamente
+  const now = new Date();
+  const day = String(now.getUTCDate()).padStart(2, "0");
+  const month = String(now.getUTCMonth() + 1).padStart(2, "0");
+  const year = now.getUTCFullYear();
+
+  const keyDoDia = `ZENITH-${year}${month}${day}`;
+
+  res.status(200).json({
+    key: keyDoDia
+  });
 }
