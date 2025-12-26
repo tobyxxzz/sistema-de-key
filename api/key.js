@@ -1,23 +1,14 @@
+// api/key.js
 export default function handler(req, res) {
-  const { token } = req.query;
+  const referer = req.headers.referer || "";
 
-  // token secreto (NUNCA divulga)
-  const VALID_TOKEN = "TOKEN_DO_WORKINK_AQUI";
-
-  if (token !== VALID_TOKEN) {
-    res.status(403).json({ error: "Access denied" });
-    return;
+  // só libera se veio do Work Ink
+  if (!referer.startsWith("https://work.ink/")) {
+    return res.status(403).json({ error: "Access Denied" });
   }
 
-  // gera key do dia automaticamente
-  const now = new Date();
-  const day = String(now.getUTCDate()).padStart(2, "0");
-  const month = String(now.getUTCMonth() + 1).padStart(2, "0");
-  const year = now.getUTCFullYear();
+  // key do dia (pode trocar todo dia ou gerar dinamicamente)
+  const keyDoDia = "KEY1234"; 
 
-  const keyDoDia = `ZENITH-${year}${month}${day}`;
-
-  res.status(200).json({
-    key: keyDoDia
-  });
+  res.status(200).json({ key: keyDoDia });
 }
