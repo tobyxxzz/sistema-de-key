@@ -2,43 +2,23 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Key do Dia</title>
-<style>
-  body { display:flex; justify-content:center; align-items:center; height:100vh; font-family:sans-serif; background:#111; color:#fff; }
-  .key-box { text-align:center; background:#222; padding:20px; border-radius:10px; }
-  button { margin-top:10px; padding:10px 20px; border:none; border-radius:5px; cursor:pointer; background:#5f5; color:#000; font-weight:bold; }
-</style>
 </head>
 <body>
-  <div class="key-box">
     <h1>Key do Dia</h1>
-    <p id="key">Carregando...</p>
-    <button onclick="copyKey()">Copiar Key</button>
-  </div>
+    <button id="pegarKey">Pegar Key</button>
+    <p id="resultado"></p>
 
-<script>
-async function fetchKey() {
-  try {
-    const res = await fetch("/api/key");
-    const data = await res.json();
-
-    if(data.key) {
-      document.getElementById("key").innerText = data.key;
-    } else {
-      document.getElementById("key").innerText = "Acesso negado!";
-    }
-  } catch (e) {
-    document.getElementById("key").innerText = "Erro ao carregar key";
-  }
-}
-
-function copyKey() {
-  const keyText = document.getElementById("key").innerText;
-  navigator.clipboard.writeText(keyText).then(() => alert("Key copiada!"));
-}
-
-fetchKey();
-</script>
+    <script>
+        document.getElementById("pegarKey").addEventListener("click", async () => {
+            try {
+                const res = await fetch("/api/key?route=codigoespecial");
+                const data = await res.json();
+                document.getElementById("resultado").innerText = "Key: " + data.key;
+            } catch {
+                document.getElementById("resultado").innerText = "Acesso negado!";
+            }
+        });
+    </script>
 </body>
 </html>
