@@ -1,20 +1,24 @@
 let keyDoDia = "";
+let tokenDoDia = "";
 let hoje = "";
 
 function gerarKey() {
-  const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-  let randomPart = "";
-  for (let i = 0; i < 12; i++) {
-    randomPart += chars[Math.floor(Math.random() * chars.length)];
-  }
-  return `ZENITH-${randomPart}`;
+  return "ZENITH-" + Math.random().toString(36).substring(2, 14);
 }
 
 export default function handler(req, res) {
+  const { token } = req.query;
   const hojeAtual = new Date().toDateString();
+
   if (hojeAtual !== hoje) {
     hoje = hojeAtual;
+    tokenDoDia = Math.random().toString(36).substring(2, 10);
     keyDoDia = gerarKey();
   }
+
+  if (token !== tokenDoDia) {
+    return res.status(403).json({ error: "Token inválido" });
+  }
+
   res.status(200).json({ key: keyDoDia });
 }
