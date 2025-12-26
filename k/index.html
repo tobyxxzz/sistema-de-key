@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Zenith Key</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: #0f0f0f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+    color: white;
+  }
+
+  .box {
+    background: #1c1c1c;
+    padding: 25px;
+    border-radius: 12px;
+    width: 320px;
+    text-align: center;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    background: #000;
+    color: #22c55e;
+    border: none;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  button {
+    margin-top: 12px;
+    width: 100%;
+    padding: 10px;
+    background: #22c55e;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="box">
+  <h2>🔑 Key do Dia</h2>
+  <p id="status">Carregando...</p>
+  <input id="key" readonly />
+  <button onclick="copiar()">Copiar</button>
+</div>
+
+<script>
+const token = location.pathname.split("/").pop();
+
+fetch(`/api/key?token=${token}`)
+  .then(r => r.json())
+  .then(d => {
+    if (!d.key) {
+      document.getElementById("status").innerText = "Acesso expirado";
+      return;
+    }
+    document.getElementById("key").value = d.key;
+    document.getElementById("status").innerText = "Key válida por 24h";
+  });
+
+function copiar() {
+  navigator.clipboard.writeText(
+    document.getElementById("key").value
+  );
+}
+</script>
+
+</body>
+</html>
