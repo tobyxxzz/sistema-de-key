@@ -57,7 +57,8 @@
 </div>
 
 <script>
-const token = location.pathname.split("/").pop();
+const params = new URLSearchParams(location.search);
+const token = params.get("token");
 
 fetch(`/api/key?token=${token}`)
   .then(r => r.json())
