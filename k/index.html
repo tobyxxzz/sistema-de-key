@@ -57,31 +57,28 @@
 </div>
 
 <script>
-const params = new URLSearchParams(location.search);
-const token = params.get("token");
+(function () {
+  const params = new URLSearchParams(location.search);
+  const token = params.get("token");
 
-if (!token) {
-  document.getElementById("status").innerText = "Token inválido";
-  return;
-}
+  if (!token) {
+    document.getElementById("status").innerText = "Token inválido";
+    return;
+  }
 
-fetch(`/api/key?token=${token}`)
-  .then(r => r.json())
-  .then(d => {
-    if (!d.key) {
-      document.getElementById("status").innerText = "Acesso expirado";
-      return;
-    }
-    document.getElementById("key").value = d.key;
-    document.getElementById("status").innerText = "Key válida por 24h";
-  });
-
-function copiar() {
-  navigator.clipboard.writeText(
-    document.getElementById("key").value
-  );
-}
+  fetch(`/api/key?token=${token}`)
+    .then(r => r.json())
+    .then(d => {
+      if (!d.key) {
+        document.getElementById("status").innerText = "Acesso expirado";
+        return;
+      }
+      document.getElementById("key").value = d.key;
+      document.getElementById("status").innerText = "Key válida por 24h";
+    });
+})();
 </script>
+
 
 </body>
 </html>
