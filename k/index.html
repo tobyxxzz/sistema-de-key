@@ -62,7 +62,7 @@ const token = params.get("token");
 
 if (!token) {
   document.getElementById("status").innerText = "Token inválido";
-  throw new Error("Token null");
+  return;
 }
 
 fetch(`/api/key?token=${token}`)
