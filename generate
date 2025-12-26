@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gerando Key...</title>
+  <style>
+    body {
+      background: #0f0f0f;
+      color: white;
+      font-family: Arial;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <h2>Gerando sua key diária...</h2>
+
+  <script>
+    fetch("/api/generate")
+      .then(res => res.json())
+      .then(data => {
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          document.body.innerHTML = "Erro ao gerar key 😭";
+        }
+      })
+      .catch(() => {
+        document.body.innerHTML = "Erro de conexão 💀";
+      });
+  </script>
+</body>
+</html>
