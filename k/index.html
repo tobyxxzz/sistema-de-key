@@ -60,6 +60,11 @@
 const params = new URLSearchParams(location.search);
 const token = params.get("token");
 
+if (!token) {
+  document.getElementById("status").innerText = "Token inválido";
+  throw new Error("Token null");
+}
+
 fetch(`/api/key?token=${token}`)
   .then(r => r.json())
   .then(d => {
