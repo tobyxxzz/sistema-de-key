@@ -1,132 +1,39 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <title>Zenith Hub • Key System</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+  // 🔒 código correto (sempre em minúsculo)
+  const CODIGO_CORRETO = "zenith hub";
 
-  <style>
-    * {
-      box-sizing: border-box;
+  // 🔑 função pra gerar string aleatória
+  function gerarRandom(len = 12) {
+    const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+    let result = "";
+    for (let i = 0; i < len; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
     }
+    return result;
+  }
 
-    body {
-      margin: 0;
-      background: #0f0f0f;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+  // 🔑 key aleatória
+  const keyGerada = "ZENITH-" + gerarRandom();
+
+  function checkCode() {
+    const input = document
+      .getElementById("code")
+      .value
+      .trim()
+      .toLowerCase();
+
+    if (input === CODIGO_CORRETO) {
+      document.getElementById("gate").classList.add("hidden");
+      document.getElementById("content").classList.remove("hidden");
+      document.getElementById("key").innerText = keyGerada;
+    } else {
+      document.getElementById("error").innerText = "Código errado.";
     }
+  }
 
-    .box {
-      background: #1b1b1b;
-      padding: 24px;
-      border-radius: 12px;
-      width: 320px;
-      text-align: center;
-      box-shadow: 0 0 20px rgba(0,0,0,.5);
-    }
-
-    h2 {
-      margin-top: 0;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      border-radius: 6px;
-      border: none;
-      margin-top: 10px;
-      font-size: 16px;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 12px;
-      border: none;
-      border-radius: 6px;
-      background: #00ff88;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    button:hover {
-      opacity: .9;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .error {
-      color: #ff5555;
-      margin-top: 10px;
-    }
-
-    .key {
-      font-size: 18px;
-      word-break: break-all;
-      margin-top: 10px;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- GATE -->
-  <div class="box" id="gate">
-    <h2>🔐 Sistema de Key</h2>
-    <p>Dica: <b>Nome do Script</b></p>
-    <input id="code" placeholder="Digite o código">
-    <button onclick="checkCode()">Liberar</button>
-    <div class="error" id="error"></div>
-  </div>
-
-  <!-- CONTEÚDO -->
-  <div class="box hidden" id="content">
-    <h2>Key liberada!</h2>
-    <div class="key" id="key"></div>
-    <button onclick="copyKey()">Copiar key</button>
-  </div>
-
-  <script>
-    // 🔒 código correto (sempre em minúsculo)
-    const CODIGO_CORRETO = "zenith hub";
-
-    // 🔑 gera key do dia
-    const hoje = new Date();
-    const keyDoDia =
-      "ZENITH-" +
-      hoje.getFullYear() +
-      String(hoje.getMonth() + 1).padStart(2, "0") +
-      String(hoje.getDate()).padStart(2, "0");
-
-    function checkCode() {
-      const input = document
-        .getElementById("code")
-        .value
-        .trim()
-        .toLowerCase();
-
-      if (input === CODIGO_CORRETO) {
-        document.getElementById("gate").classList.add("hidden");
-        document.getElementById("content").classList.remove("hidden");
-        document.getElementById("key").innerText = keyDoDia;
-      } else {
-        document.getElementById("error").innerText = "Código errado.";
-      }
-    }
-
-    function copyKey() {
-      const key = document.getElementById("key").innerText;
-      navigator.clipboard.writeText(key);
-      alert("Key copiada!");
-    }
-  </script>
-
-</body>
-</html>
+  function copyKey() {
+    const key = document.getElementById("key").innerText;
+    navigator.clipboard.writeText(key);
+    alert("Key copiada!");
+  }
+</script>
