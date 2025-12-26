@@ -1,6 +1,6 @@
 import crypto from "crypto";
 
-const SECRET = "ZenithGod"; // troca isso
+const SECRET = "ZENITHGOD"; // troca isso
 
 export default function handler(req, res) {
   const time = Date.now();
