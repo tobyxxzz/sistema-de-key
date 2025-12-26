@@ -94,17 +94,17 @@
   </div>
 
 <h1 id="key">Carregando...</h1>
-  
 <script>
-  fetch("/api/newkey")
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById("key").innerText = data.key;
-    })
-    .catch(() => {
-      document.getElementById("key").innerText = "Erro 💀";
-    });
+fetch("/api/newkey")
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("key").innerText = data.key;
+  })
+  .catch(() => {
+    document.getElementById("key").innerText = "Erro 💀";
+  });
 </script>
+
 
 
 
