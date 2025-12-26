@@ -1,52 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Key do Dia</title>
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: #121212;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      flex-direction: column;
-    }
-    #keyBox {
-      padding: 20px;
-      background: #1f1f1f;
-      border-radius: 10px;
-      text-align: center;
-      font-size: 20px;
-    }
-    #errorBox {
-      color: #ff5555;
-      font-size: 18px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Key do Dia</title>
+<style>
+  body { display:flex; justify-content:center; align-items:center; height:100vh; font-family:sans-serif; background:#111; color:#fff; }
+  .key-box { text-align:center; background:#222; padding:20px; border-radius:10px; }
+  button { margin-top:10px; padding:10px 20px; border:none; border-radius:5px; cursor:pointer; background:#5f5; color:#000; font-weight:bold; }
+</style>
 </head>
 <body>
-  <div id="keyBox" style="display:none;">Carregando...</div>
-  <div id="errorBox"></div>
+  <div class="key-box">
+    <h1>Key do Dia</h1>
+    <p id="key">Carregando...</p>
+    <button onclick="copyKey()">Copiar Key</button>
+  </div>
 
-  <script>
-    async function getKey() {
-      try {
-        const res = await fetch("/api/key");
-        if (!res.ok) throw new Error("Bloqueado! Acesse pelo Work Ink.");
+<script>
+async function fetchKey() {
+  try {
+    const res = await fetch("/api/key");
+    const data = await res.json();
 
-        const data = await res.json();
-        document.getElementById("keyBox").style.display = "block";
-        document.getElementById("keyBox").innerText = `Key do dia: ${data.key}`;
-      } catch (err) {
-        document.getElementById("errorBox").innerText = err.message;
-      }
+    if(data.key) {
+      document.getElementById("key").innerText = data.key;
+    } else {
+      document.getElementById("key").innerText = "Acesso negado!";
     }
+  } catch (e) {
+    document.getElementById("key").innerText = "Erro ao carregar key";
+  }
+}
 
-    getKey();
-  </script>
+function copyKey() {
+  const keyText = document.getElementById("key").innerText;
+  navigator.clipboard.writeText(keyText).then(() => alert("Key copiada!"));
+}
+
+fetchKey();
+</script>
 </body>
 </html>
