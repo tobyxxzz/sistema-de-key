@@ -94,21 +94,39 @@
   </div>
 
 <script>
-  // 🔒 código correto (sempre em minúsculo)
   const CODIGO_CORRETO = "zenith hub";
 
-  // 🔑 função pra gerar string aleatória
   function gerarRandom(len = 12) {
     const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
     let result = "";
     for (let i = 0; i < len; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length));
+      result += chars[Math.floor(Math.random() * chars.length)];
     }
     return result;
   }
 
-  // 🔑 key aleatória
-  const keyGerada = "ZENITH-" + gerarRandom();
+  function getKeyDoDia() {
+    const hoje = new Date().toISOString().slice(0, 10); // 2025-12-26
+    const saved = localStorage.getItem("zenith_key");
+
+    if (saved) {
+      const data = JSON.parse(saved);
+      if (data.date === hoje) {
+        return data.key; // mesma key do dia 😎
+      }
+    }
+
+    // gera nova só se mudou o dia
+    const novaKey = "ZENITH-" + gerarRandom();
+    localStorage.setItem(
+      "zenith_key",
+      JSON.stringify({ date: hoje, key: novaKey })
+    );
+
+    return novaKey;
+  }
+
+  const keyGerada = getKeyDoDia();
 
   function checkCode() {
     const input = document
@@ -122,14 +140,13 @@
       document.getElementById("content").classList.remove("hidden");
       document.getElementById("key").innerText = keyGerada;
     } else {
-      document.getElementById("error").innerText = "Código errado.";
+      document.getElementById("error").innerText = "Código errado 💀";
     }
   }
 
   function copyKey() {
-    const key = document.getElementById("key").innerText;
-    navigator.clipboard.writeText(key);
-    alert("Key copiada!");
+    navigator.clipboard.writeText(keyGerada);
+    alert("Key copiada 😎");
   }
 </script>
 
