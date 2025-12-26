@@ -1,112 +1,58 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Zenith Hub • Key System</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta charset="UTF-8" />
+  <title>Zenith Hub - Key</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
-      margin: 0;
       background: #0f0f0f;
-      color: #fff;
+      color: white;
       font-family: Arial, sans-serif;
       display: flex;
-      justify-content: center;
-      align-items: center;
       height: 100vh;
+      align-items: center;
+      justify-content: center;
     }
-
     .box {
-      background: #1b1b1b;
-      padding: 24px;
-      border-radius: 12px;
-      width: 320px;
+      background: #1a1a1a;
+      padding: 25px;
+      border-radius: 10px;
       text-align: center;
-      box-shadow: 0 0 20px rgba(0,0,0,.5);
+      width: 300px;
     }
-
-    h2 {
-      margin-top: 0;
-    }
-
     input {
       width: 100%;
       padding: 10px;
-      border-radius: 6px;
-      border: none;
       margin-top: 10px;
-      font-size: 16px;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 12px;
+      background: #000;
+      color: #0f0;
       border: none;
-      border-radius: 6px;
-      background: #00ff88;
+      text-align: center;
       font-weight: bold;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    button:hover {
-      opacity: .9;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .error {
-      color: #ff5555;
-      margin-top: 10px;
-    }
-
-    .key {
-      font-size: 18px;
-      word-break: break-all;
-      margin-top: 10px;
     }
   </style>
 </head>
 <body>
 
-  <!-- GATE -->
-  <div class="box" id="gate">
-    <h2>🔐 Sistema de Key</h2>
-    <p>Dica: <b>Nome do Script</b></p>
-    <input id="code" placeholder="Digite o código">
-    <button onclick="checkCode()">Liberar</button>
-    <div class="error" id="error"></div>
-  </div>
+<div class="box">
+  <h2>🔑 Key do Dia</h2>
+  <p id="status">Carregando key...</p>
+  <input id="key" readonly />
+</div>
 
-  <!-- CONTEÚDO -->
-  <div class="box hidden" id="content">
-    <h2>✅ Key liberada</h2>
-    <div class="key" id="key"></div>
-    <button onclick="copyKey()">Copiar key</button>
-  </div>
-
-<h1 id="key">Carregando...</h1>
 <script>
-fetch("/api/newkey")
-  .then(res => res.json())
-  .then(data => {
-    document.getElementById("key").innerText = data.key;
+const API = "https://TEU-SERVER.onrender.com/key";
+
+fetch(API)
+  .then(r => r.json())
+  .then(d => {
+    document.getElementById("key").value = d.key;
+    document.getElementById("status").innerText = "Key gerada com sucesso";
   })
   .catch(() => {
-    document.getElementById("key").innerText = "Erro 💀";
+    document.getElementById("status").innerText = "Erro ao carregar key";
   });
 </script>
-
-
-
 
 </body>
 </html>
